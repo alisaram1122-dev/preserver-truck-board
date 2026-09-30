@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Preserver Trans - Admin</title>
+  <title>Preserver Trans LLC - Truck Availability</title>
 
   <style>
     * {
@@ -15,98 +15,107 @@
     body {
       margin: 0;
       background: #f4f4f4;
+      color: #222;
     }
 
     header {
       background: #111;
       color: #d4af37;
-      padding: 22px;
+      padding: 25px;
       text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 30px;
     }
 
     header p {
       color: white;
+      margin-top: 8px;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 1100px;
       margin: 30px auto;
-      padding: 20px;
+      padding: 0 15px;
     }
 
-    .box {
+    .title {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .truck-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .truck-card {
       background: white;
-      padding: 25px;
+      padding: 20px;
       border-radius: 12px;
       box-shadow: 0 3px 12px rgba(0,0,0,.12);
+      border-left: 5px solid #d4af37;
     }
 
-    h2 {
-      margin-bottom: 20px;
+    .truck-card h3 {
+      margin-top: 0;
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
+    .available {
+      display: inline-block;
+      background: #198754;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-bottom: 12px;
     }
 
-    input,
-    select,
-    textarea {
-      width: 100%;
+    .info {
+      margin: 9px 0;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    .contact-btn {
+      display: block;
+      margin-top: 18px;
       padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 7px;
-      font-size: 15px;
-    }
-
-    textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
-
-    .full {
-      grid-column: 1 / -1;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 7px;
       background: #111;
       color: #d4af37;
-      font-size: 16px;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 7px;
       font-weight: bold;
-      cursor: pointer;
     }
 
-    button:hover {
+    .contact-btn:hover {
       background: #333;
     }
 
-    #message {
-      margin-top: 15px;
+    #loading {
       text-align: center;
-      font-weight: bold;
+      font-size: 18px;
+      padding: 30px;
     }
 
-    .back {
-      display: block;
+    #error {
       text-align: center;
-      margin-top: 20px;
-      color: #111;
+      color: red;
+      padding: 20px;
     }
 
-    @media(max-width: 650px) {
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .full {
-        grid-column: auto;
-      }
+    footer {
+      margin-top: 40px;
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 20px;
     }
   </style>
 </head>
@@ -115,93 +124,29 @@
 
 <header>
   <h1>Preserver Trans LLC</h1>
-  <p>Truck Availability - Admin Panel</p>
+  <p>Truck Availability Board</p>
 </header>
 
 <div class="container">
 
-  <div class="box">
-
-    <h2>Add Available Truck</h2>
-
-    <form id="truckForm">
-
-      <div class="form-grid">
-
-        <div>
-          <label>Truck Number</label>
-          <input id="truck_number" required placeholder="Example: 101">
-        </div>
-
-        <div>
-          <label>Driver Name</label>
-          <input id="driver_name" placeholder="Driver name">
-        </div>
-
-        <div>
-          <label>Current Location</label>
-          <input id="location" required placeholder="Example: Kent, WA">
-        </div>
-
-        <div>
-          <label>Available Date</label>
-          <input id="available_date" type="date" required>
-        </div>
-
-        <div>
-          <label>Available Time</label>
-          <input id="available_time" type="time" required>
-        </div>
-
-        <div>
-          <label>Preferred Lane</label>
-          <input id="lane" placeholder="Example: WA → CA">
-        </div>
-
-        <div>
-          <label>Equipment</label>
-          <select id="equipment">
-            <option>53' Dry Van</option>
-            <option>53' Reefer</option>
-            <option>Flatbed</option>
-            <option>Other</option>
-          </select>
-        </div>
-
-        <div>
-          <label>Status</label>
-          <select id="status">
-            <option>Available</option>
-            <option>Booked</option>
-            <option>Not Available</option>
-          </select>
-        </div>
-
-        <div class="full">
-          <label>Notes</label>
-          <textarea id="notes"
-            placeholder="Example: Driver prefers CA → WA loads"></textarea>
-        </div>
-
-        <div class="full">
-          <button type="submit">
-            + ADD TRUCK
-          </button>
-        </div>
-
-      </div>
-
-    </form>
-
-    <div id="message"></div>
-
-    <a class="back" href="index.html">
-      ← Back to Broker Page
-    </a>
-
+  <div class="title">
+    <h2>Available Trucks</h2>
+    <p>Live truck availability</p>
   </div>
 
+  <div id="loading">
+    Loading trucks...
+  </div>
+
+  <div id="error"></div>
+
+  <div class="truck-list" id="truckList"></div>
+
 </div>
+
+<footer>
+  © 2026 Preserver Trans LLC | Dispatcher
+</footer>
 
 <script>
 
@@ -211,61 +156,26 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_HFnwZD1cccBr6RsIDhZPbA_MxHGK0T6";
 
-document.getElementById("truckForm").addEventListener("submit",
-async function(event) {
 
-  event.preventDefault();
+async function loadTrucks() {
 
-  const message = document.getElementById("message");
-
-  const truck = {
-    truck_number:
-      document.getElementById("truck_number").value,
-
-    driver_name:
-      document.getElementById("driver_name").value,
-
-    location:
-      document.getElementById("location").value,
-
-    available_date:
-      document.getElementById("available_date").value,
-
-    available_time:
-      document.getElementById("available_time").value,
-
-    lane:
-      document.getElementById("lane").value,
-
-    equipment:
-      document.getElementById("equipment").value,
-
-    status:
-      document.getElementById("status").value,
-
-    notes:
-      document.getElementById("notes").value
-  };
-
-  message.textContent = "Saving truck...";
+  const loading = document.getElementById("loading");
+  const truckList = document.getElementById("truckList");
+  const error = document.getElementById("error");
 
   try {
 
     const response = await fetch(
-      SUPABASE_URL + "/rest/v1/trucks",
+      SUPABASE_URL +
+      "/rest/v1/trucks?status=eq.Available&order=available_date.asc,available_time.asc",
       {
-        method: "POST",
+        method: "GET",
 
         headers: {
           "apikey": SUPABASE_KEY,
           "Authorization":
-            "Bearer " + SUPABASE_KEY,
-          "Content-Type":
-            "application/json",
-          "Prefer": "return=minimal"
-        },
-
-        body: JSON.stringify(truck)
+            "Bearer " + SUPABASE_KEY
+        }
       }
     );
 
@@ -275,20 +185,90 @@ async function(event) {
       );
     }
 
-    message.textContent =
-      "✅ Truck added successfully!";
+    const trucks = await response.json();
 
-    document.getElementById("truckForm").reset();
+    loading.style.display = "none";
 
-  } catch (error) {
+    if (trucks.length === 0) {
 
-    console.error(error);
+      truckList.innerHTML =
+        "<p style='text-align:center;'>No trucks currently available.</p>";
 
-    message.textContent =
-      "❌ Error: " + error.message;
+      return;
+    }
+
+    truckList.innerHTML = "";
+
+    trucks.forEach(truck => {
+
+      const card = document.createElement("div");
+
+      card.className = "truck-card";
+
+      card.innerHTML = `
+
+        <span class="available">
+          AVAILABLE
+        </span>
+
+        <h3>
+          Truck #${truck.truck_number}
+        </h3>
+
+        <div class="info">
+          <span class="label">Location:</span>
+          ${truck.location || "N/A"}
+        </div>
+
+        <div class="info">
+          <span class="label">Available Date:</span>
+          ${truck.available_date || "N/A"}
+        </div>
+
+        <div class="info">
+          <span class="label">Available Time:</span>
+          ${truck.available_time || "N/A"}
+        </div>
+
+        <div class="info">
+          <span class="label">Lane:</span>
+          ${truck.lane || "Any"}
+        </div>
+
+        <div class="info">
+          <span class="label">Equipment:</span>
+          ${truck.equipment || "N/A"}
+        </div>
+
+        <div class="info">
+          <span class="label">Notes:</span>
+          ${truck.notes || "None"}
+        </div>
+
+        <a
+          class="contact-btn"
+          href="mailto:preservertrans79@gmail.com?subject=Load Offer - Truck ${truck.truck_number}">
+          Contact Dispatcher
+        </a>
+
+      `;
+
+      truckList.appendChild(card);
+
+    });
+
+  } catch (err) {
+
+    loading.style.display = "none";
+
+    error.innerHTML =
+      "Unable to load trucks. Please try again.";
+
+    console.error(err);
   }
+}
 
-});
+loadTrucks();
 
 </script>
 
