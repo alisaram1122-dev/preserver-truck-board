@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Preserver Trans LLC - Truck Board</title>
+  <title>Preserver Trans LLC - Truck Availability</title>
 
   <style>
     * {
@@ -32,7 +32,7 @@
 
     header p {
       color: white;
-      margin: 8px 0 0;
+      margin-top: 8px;
     }
 
     .container {
@@ -48,8 +48,7 @@
 
     .truck-list {
       display: grid;
-      grid-template-columns:
-        repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
     }
 
@@ -58,12 +57,11 @@
       padding: 20px;
       border-radius: 12px;
       border-left: 5px solid #d4af37;
-      box-shadow: 0 3px 12px rgba(0,0,0,.12);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
     }
 
     .truck-card h3 {
-      margin-top: 5px;
-      margin-bottom: 15px;
+      margin: 8px 0 15px;
     }
 
     .status {
@@ -73,7 +71,6 @@
       padding: 5px 10px;
       border-radius: 20px;
       font-size: 13px;
-      margin-bottom: 10px;
     }
 
     .info {
@@ -106,7 +103,7 @@
     #message {
       text-align: center;
       padding: 20px;
-      color: #555;
+      font-weight: bold;
     }
 
     footer {
@@ -137,7 +134,7 @@
     Loading trucks...
   </div>
 
-  <div class="truck-list" id="truckList"></div>
+  <div id="truckList" class="truck-list"></div>
 
   <div id="message"></div>
 
@@ -147,137 +144,103 @@
   © 2026 Preserver Trans LLC | Dispatcher
 </footer>
 
-
 <script>
 
 const SUPABASE_URL =
-"https://lriojwlaxemghavidsjt.supabase.co";
+  "https://lriojwlaxemghavidsjt.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_HFnwZD1cccBr6RsIDhZPbA_MxHGK0T6";
+  "sb_publishable_HFnwZD1cccBr6RsIDhZPbA_MxHGK0T6";
 
 
-async function getTrucks() {
+async function loadTrucks() {
 
-  const loading =
-    document.getElementById("loading");
-
-  const list =
-    document.getElementById("truckList");
-
-  const message =
-    document.getElementById("message");
+  const loading = document.getElementById("loading");
+  const list = document.getElementById("truckList");
+  const message = document.getElementById("message");
 
   try {
 
     const response = await fetch(
-      SUPABASE_URL +
-      "/rest/v1/trucks?order=id.desc",
+      SUPABASE_URL + "/rest/v1/trucks",
       {
+        method: "GET",
         headers: {
           "apikey": SUPABASE_KEY,
-          "Authorization":
-            "Bearer " + SUPABASE_KEY
+          "Authorization": "Bearer " + SUPABASE_KEY
         }
       }
     );
 
     if (!response.ok) {
-      throw new Error(
-        "Database connection failed"
-      );
+      throw new Error("Database error");
     }
 
-    const trucks =
-      await response.json();
+    const trucks = await response.json();
 
     loading.style.display = "none";
 
     if (trucks.length === 0) {
-
-      message.innerHTML =
-        "No trucks available.";
-
+      message.innerHTML = "No trucks available.";
       return;
     }
 
     trucks.forEach(function(truck) {
 
-      const card =
-        document.createElement("div");
+      const card = document.createElement("div");
 
-      card.className =
-        "truck-card";
+      card.className = "truck-card";
 
-      card.innerHTML = `
+      card.innerHTML =
+        '<span class="status">' +
+        (truck.status || "Available") +
+        '</span>' +
 
-        <span class="status">
-          ${truck.status || "Available"}
-        </span>
+        '<h3>🚛 Truck #' +
+        (truck.truck_number || "N/A") +
+        '</h3>' +
 
-        <h3>
-          🚛 Truck #${truck.truck_number}
-        </h3>
+        '<div class="info">' +
+        '<span class="label">Driver:</span> ' +
+        (truck.driver_name || "N/A") +
+        '</div>' +
 
-        <div class="info">
-          <span class="label">
-            Driver:
-          </span>
-          ${truck.driver_name || "N/A"}
-        </div>
+        '<div class="info">' +
+        '<span class="label">Location:</span> ' +
+        (truck.location || "N/A") +
+        '</div>' +
 
-        <div class="info">
-          <span class="label">
-            Location:
-          </span>
-          ${truck.location || "N/A"}
-        </div>
+        '<div class="info">' +
+        '<span class="label">Available Date:</span> ' +
+        (truck.available_date || "N/A") +
+        '</div>' +
 
-        <div class="info">
-          <span class="label">
-            Available Date:
-          </span>
-          ${truck.available_date || "N/A"}
-        </div>
+        '<div class="info">' +
+        '<span class="label">Available Time:</span> ' +
+        (truck.available_time || "N/A") +
+        '</div>' +
 
-        <div class="info">
-          <span class="label">
-            Available Time:
-          </span>
-          ${truck.available_time || "N/A"}
-        </div>
+        '<div class="info">' +
+        '<span class="label">Lane:</span> ' +
+        (truck.lane || "Any") +
+        '</div>' +
 
-        <div class="info">
-          <span class="label">
-            Lane:
-          </span>
-          ${truck.lane || "Any"}
-        </div>
+        '<div class="info">' +
+        '<span class="label">Equipment:</span> ' +
+        (truck.equipment || "N/A") +
+        '</div>' +
 
-        <div class="info">
-          <span class="label">
-            Equipment:
-          </span>
-          ${truck.equipment || "N/A"}
-        </div>
+        '<div class="info">' +
+        '<span class="label">Notes:</span> ' +
+        (truck.notes || "None") +
+        '</div>' +
 
-        <div class="info">
-          <span class="label">
-            Notes:
-          </span>
-          ${truck.notes || "None"}
-        </div>
-
-        <a
-          class="contact"
-          href="mailto:preservertrans79@gmail.com?subject=Load Offer - Truck ${truck.truck_number}">
-          Contact Dispatcher
-        </a>
-
-      `;
+        '<a class="contact" ' +
+        'href="mailto:preservertrans79@gmail.com">' +
+        'Contact Dispatcher' +
+        '</a>';
 
       list.appendChild(card);
-
     });
 
   } catch (error) {
@@ -285,14 +248,13 @@ async function getTrucks() {
     loading.style.display = "none";
 
     message.innerHTML =
-      "❌ Unable to load trucks.";
+      "Unable to load trucks.";
 
     console.log(error);
   }
 }
 
-
-getTrucks();
+loadTrucks();
 
 </script>
 
