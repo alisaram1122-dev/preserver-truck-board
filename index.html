@@ -4,17 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Preserver Trans LLC - Truck Availability</title>
+  <title>Preserver Trans LLC - Truck Board</title>
 
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
       font-family: Arial, sans-serif;
     }
 
     body {
+      margin: 0;
       background: #f4f4f4;
       color: #222;
     }
@@ -22,17 +21,18 @@
     header {
       background: #111;
       color: #d4af37;
-      padding: 25px;
       text-align: center;
+      padding: 25px 15px;
     }
 
     header h1 {
+      margin: 0;
       font-size: 30px;
     }
 
     header p {
       color: white;
-      margin-top: 8px;
+      margin: 8px 0 0;
     }
 
     .container {
@@ -46,61 +46,67 @@
       margin-bottom: 25px;
     }
 
-    .title h2 {
-      margin-bottom: 8px;
-    }
-
     .truck-list {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
     }
 
     .truck-card {
       background: white;
-      border-radius: 12px;
       padding: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+      border-radius: 12px;
       border-left: 5px solid #d4af37;
+      box-shadow: 0 3px 12px rgba(0,0,0,.12);
     }
 
     .truck-card h3 {
+      margin-top: 5px;
       margin-bottom: 15px;
-      color: #111;
     }
 
-    .info {
-      margin: 8px 0;
-    }
-
-    .label {
-      font-weight: bold;
-    }
-
-    .available {
+    .status {
       display: inline-block;
       background: #198754;
       color: white;
       padding: 5px 10px;
       border-radius: 20px;
       font-size: 13px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
-    .contact-btn {
-      display: block;
-      text-align: center;
-      margin-top: 18px;
-      background: #111;
-      color: #d4af37;
-      padding: 12px;
-      border-radius: 7px;
-      text-decoration: none;
+    .info {
+      margin: 9px 0;
+      line-height: 1.4;
+    }
+
+    .label {
       font-weight: bold;
     }
 
-    .contact-btn:hover {
-      background: #333;
+    .contact {
+      display: block;
+      margin-top: 18px;
+      padding: 12px;
+      background: #111;
+      color: #d4af37;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 7px;
+      font-weight: bold;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 30px;
+      font-size: 18px;
+    }
+
+    #message {
+      text-align: center;
+      padding: 20px;
+      color: #555;
     }
 
     footer {
@@ -115,128 +121,180 @@
 
 <body>
 
-  <header>
-    <h1>Preserver Trans LLC</h1>
-    <p>Truck Availability Board</p>
-  </header>
+<header>
+  <h1>Preserver Trans LLC</h1>
+  <p>Truck Availability Board</p>
+</header>
 
-  <div class="container">
+<div class="container">
 
-    <div class="title">
-      <h2>Available Trucks</h2>
-      <p>Find available trucks for your next load.</p>
-    </div>
-
-    <div class="truck-list">
-
-      <div class="truck-card">
-
-        <span class="available">AVAILABLE</span>
-
-        <h3>Truck #101</h3>
-
-        <div class="info">
-          <span class="label">Location:</span>
-          Kent, WA
-        </div>
-
-        <div class="info">
-          <span class="label">Available:</span>
-          Today - 5:00 PM
-        </div>
-
-        <div class="info">
-          <span class="label">Lane:</span>
-          WA → CA
-        </div>
-
-        <div class="info">
-          <span class="label">Equipment:</span>
-          53' Dry Van
-        </div>
-
-        <a class="contact-btn"
-           href="mailto:preservertrans79@gmail.com">
-          Contact Dispatcher
-        </a>
-
-      </div>
-
-
-      <div class="truck-card">
-
-        <span class="available">AVAILABLE</span>
-
-        <h3>Truck #205</h3>
-
-        <div class="info">
-          <span class="label">Location:</span>
-          Fresno, CA
-        </div>
-
-        <div class="info">
-          <span class="label">Available:</span>
-          Tomorrow - 8:00 AM
-        </div>
-
-        <div class="info">
-          <span class="label">Lane:</span>
-          CA → WA
-        </div>
-
-        <div class="info">
-          <span class="label">Equipment:</span>
-          53' Dry Van
-        </div>
-
-        <a class="contact-btn"
-           href="mailto:preservertrans79@gmail.com">
-          Contact Dispatcher
-        </a>
-
-      </div>
-
-
-      <div class="truck-card">
-
-        <span class="available">AVAILABLE</span>
-
-        <h3>Truck #312</h3>
-
-        <div class="info">
-          <span class="label">Location:</span>
-          Portland, OR
-        </div>
-
-        <div class="info">
-          <span class="label">Available:</span>
-          Today - 3:00 PM
-        </div>
-
-        <div class="info">
-          <span class="label">Lane:</span>
-          OR → CA
-        </div>
-
-        <div class="info">
-          <span class="label">Equipment:</span>
-          Reefer
-        </div>
-
-        <a class="contact-btn"
-           href="mailto:preservertrans79@gmail.com">
-          Contact Dispatcher
-        </a>
-
-      </div>
-
-    </div>
-
+  <div class="title">
+    <h2>Available Trucks</h2>
+    <p>Live Truck Availability</p>
   </div>
 
-  <footer>
-    © 2026 Preserver Trans LLC | Dispatcher
-  </footer>
+  <div id="loading">
+    Loading trucks...
+  </div>
+
+  <div class="truck-list" id="truckList"></div>
+
+  <div id="message"></div>
+
+</div>
+
+<footer>
+  © 2026 Preserver Trans LLC | Dispatcher
+</footer>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://lriojwlaxemghavidsjt.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_HFnwZD1cccBr6RsIDhZPbA_MxHGK0T6";
+
+
+async function getTrucks() {
+
+  const loading =
+    document.getElementById("loading");
+
+  const list =
+    document.getElementById("truckList");
+
+  const message =
+    document.getElementById("message");
+
+  try {
+
+    const response = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/trucks?order=id.desc",
+      {
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization":
+            "Bearer " + SUPABASE_KEY
+        }
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        "Database connection failed"
+      );
+    }
+
+    const trucks =
+      await response.json();
+
+    loading.style.display = "none";
+
+    if (trucks.length === 0) {
+
+      message.innerHTML =
+        "No trucks available.";
+
+      return;
+    }
+
+    trucks.forEach(function(truck) {
+
+      const card =
+        document.createElement("div");
+
+      card.className =
+        "truck-card";
+
+      card.innerHTML = `
+
+        <span class="status">
+          ${truck.status || "Available"}
+        </span>
+
+        <h3>
+          🚛 Truck #${truck.truck_number}
+        </h3>
+
+        <div class="info">
+          <span class="label">
+            Driver:
+          </span>
+          ${truck.driver_name || "N/A"}
+        </div>
+
+        <div class="info">
+          <span class="label">
+            Location:
+          </span>
+          ${truck.location || "N/A"}
+        </div>
+
+        <div class="info">
+          <span class="label">
+            Available Date:
+          </span>
+          ${truck.available_date || "N/A"}
+        </div>
+
+        <div class="info">
+          <span class="label">
+            Available Time:
+          </span>
+          ${truck.available_time || "N/A"}
+        </div>
+
+        <div class="info">
+          <span class="label">
+            Lane:
+          </span>
+          ${truck.lane || "Any"}
+        </div>
+
+        <div class="info">
+          <span class="label">
+            Equipment:
+          </span>
+          ${truck.equipment || "N/A"}
+        </div>
+
+        <div class="info">
+          <span class="label">
+            Notes:
+          </span>
+          ${truck.notes || "None"}
+        </div>
+
+        <a
+          class="contact"
+          href="mailto:preservertrans79@gmail.com?subject=Load Offer - Truck ${truck.truck_number}">
+          Contact Dispatcher
+        </a>
+
+      `;
+
+      list.appendChild(card);
+
+    });
+
+  } catch (error) {
+
+    loading.style.display = "none";
+
+    message.innerHTML =
+      "❌ Unable to load trucks.";
+
+    console.log(error);
+  }
+}
+
+
+getTrucks();
+
+</script>
 
 </body>
 </html>
