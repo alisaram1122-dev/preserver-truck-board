@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Preserver Trans LLC - Truck Availability</title>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+Preserver Trans LLC - Truck Availability
+</title>
 
 <style>
 
@@ -60,6 +66,7 @@ header p {
   background: white;
   padding: 20px;
   border-radius: 12px;
+
   border-left: 5px solid #d4af37;
 
   box-shadow:
@@ -74,6 +81,7 @@ header p {
   display: inline-block;
 
   background: #198754;
+
   color: white;
 
   padding: 5px 10px;
@@ -131,7 +139,7 @@ header p {
 }
 
 
-/* CONTACT POPUP */
+/* POPUP */
 
 .modal {
 
@@ -157,9 +165,10 @@ header p {
   background: white;
 
   width: 90%;
+
   max-width: 450px;
 
-  margin: 10% auto;
+  margin: 8% auto;
 
   padding: 25px;
 
@@ -168,33 +177,23 @@ header p {
   box-shadow:
   0 5px 25px rgba(0,0,0,.3);
 
-  text-align: center;
-
 }
 
 .modal-box h2 {
-
   margin-top: 0;
-
   color: #111;
-
+  text-align: center;
 }
 
-.dispatcher-info {
-
-  text-align: left;
-
-  margin-top: 20px;
-
-  line-height: 1.8;
-
+.modal-box h3 {
+  text-align: center;
 }
 
 .close {
 
   float: right;
 
-  font-size: 28px;
+  font-size: 30px;
 
   font-weight: bold;
 
@@ -202,13 +201,21 @@ header p {
 
 }
 
+.dispatcher-info {
+
+  margin-top: 20px;
+
+  line-height: 1.9;
+
+}
+
 .contact-link {
 
   display: block;
 
-  margin-top: 10px;
+  margin-top: 12px;
 
-  padding: 12px;
+  padding: 13px;
 
   background: #111;
 
@@ -216,11 +223,18 @@ header p {
 
   text-decoration: none;
 
+  text-align: center;
+
   border-radius: 7px;
 
   font-weight: bold;
 
 }
+
+.contact-link:hover {
+  background: #333;
+}
+
 
 footer {
 
@@ -246,9 +260,13 @@ footer {
 
 <header>
 
-<h1>Preserver Trans LLC</h1>
+<h1>
+Preserver Trans LLC
+</h1>
 
-<p>Truck Availability Board</p>
+<p>
+Truck Availability Board
+</p>
 
 </header>
 
@@ -258,17 +276,19 @@ footer {
 
 <div class="title">
 
-<h2>Available Trucks</h2>
+<h2>
+Available Trucks
+</h2>
 
-<p>Live Truck Availability</p>
+<p>
+Find available trucks for your next load.
+</p>
 
 </div>
 
 
 <div id="loading">
-
 Loading trucks...
-
 </div>
 
 
@@ -292,7 +312,7 @@ class="truck-list">
 
 
 
-<!-- DISPATCHER POPUP -->
+<!-- DISPATCHER INFORMATION POPUP -->
 
 <div
 id="dispatcherModal"
@@ -328,30 +348,25 @@ Dispatcher Information
 Saim Ali
 </div>
 
-
 <div>
 <strong>Company:</strong>
 Preserver Trans LLC
 </div>
-
 
 <div>
 <strong>Phone:</strong>
 530-565-6348
 </div>
 
-
 <div>
 <strong>Email:</strong>
 preservertrans79@gmail.com
 </div>
 
-
 <div>
 <strong>Location:</strong>
 California, USA
 </div>
-
 
 <div>
 <strong>MC:</strong>
@@ -394,7 +409,6 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
 "sb_publishable_HFnwZD1cccBr6RsIDhZPbA_MxHGK0T6";
-
 
 
 async function loadTrucks() {
@@ -558,9 +572,7 @@ card.innerHTML =
 '</div>' +
 
 
-'<a class="contact" ' +
-
-'href="#" ' +
+'<a class="contact" href="#" ' +
 
 'onclick="openDispatcher(); return false;">' +
 
@@ -571,31 +583,23 @@ card.innerHTML =
 
 list.appendChild(card);
 
-
 });
-
 
 }
 
-
 catch(error) {
-
 
 console.log(error);
 
-
 loading.style.display =
 "none";
-
 
 message.innerHTML =
 "Unable to load trucks.";
 
 }
 
-
 }
-
 
 
 function openDispatcher() {
@@ -607,7 +611,6 @@ document
 }
 
 
-
 function closeDispatcher() {
 
 document
@@ -615,7 +618,6 @@ document
 .style.display = "none";
 
 }
-
 
 
 window.onclick =
@@ -636,12 +638,11 @@ modal.style.display =
 };
 
 
-
 loadTrucks();
-
 
 </script>
 
 
 </body>
+
 </html>
