@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Preserver Trans LLC - Admin</title>
+<title>Preserver Trans LLC - Dispatcher Panel</title>
 
 <style>
+
 * {
   box-sizing: border-box;
   font-family: Arial, sans-serif;
@@ -14,7 +15,7 @@
 
 body {
   margin: 0;
-  background: #f4f4f4;
+  background: #f3f3f3;
 }
 
 header {
@@ -42,7 +43,11 @@ header p {
   background: white;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+  box-shadow: 0 3px 15px rgba(0,0,0,.12);
+}
+
+h2 {
+  margin-top: 0;
 }
 
 .form-grid {
@@ -53,8 +58,8 @@ header p {
 
 label {
   display: block;
-  margin-bottom: 6px;
   font-weight: bold;
+  margin-bottom: 6px;
 }
 
 input,
@@ -68,7 +73,8 @@ textarea {
 }
 
 textarea {
-  min-height: 90px;
+  min-height: 100px;
+  resize: vertical;
 }
 
 .full {
@@ -77,12 +83,12 @@ textarea {
 
 button {
   width: 100%;
-  padding: 14px;
+  padding: 15px;
   border: none;
   border-radius: 7px;
   background: #111;
   color: #d4af37;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: bold;
   cursor: pointer;
 }
@@ -101,9 +107,12 @@ button:hover {
   display: block;
   text-align: center;
   margin-top: 20px;
+  color: #111;
+  text-decoration: none;
 }
 
 @media(max-width:650px) {
+
   .form-grid {
     grid-template-columns: 1fr;
   }
@@ -111,98 +120,186 @@ button:hover {
   .full {
     grid-column: auto;
   }
+
 }
+
 </style>
 </head>
 
 <body>
 
 <header>
-  <h1>Preserver Trans LLC</h1>
-  <p>Truck Availability - Admin Panel</p>
+
+<h1>Preserver Trans LLC</h1>
+
+<p>Dispatcher Truck Availability Panel</p>
+
 </header>
+
 
 <div class="container">
 
 <div class="box">
 
-<h2>Add Available Truck</h2>
+<h2>🚛 Add Truck Availability</h2>
 
 <form id="truckForm">
 
 <div class="form-grid">
 
+
 <div>
+
 <label>Truck Number</label>
-<input id="truck_number" required>
+
+<input
+id="truck_number"
+placeholder="Example: 7867"
+required>
+
 </div>
 
+
 <div>
+
 <label>Driver Name</label>
-<input id="driver_name">
+
+<input
+id="driver_name"
+placeholder="Example: John Smith"
+required>
+
 </div>
 
+
 <div>
+
 <label>Current Location</label>
-<input id="location" required>
+
+<input
+id="location"
+placeholder="Example: Kent, WA"
+required>
+
 </div>
 
+
 <div>
+
 <label>Available Date</label>
-<input id="available_date" type="date" required>
+
+<input
+id="available_date"
+type="date"
+required>
+
 </div>
 
+
 <div>
+
 <label>Available Time</label>
-<input id="available_time" type="time" required>
+
+<input
+id="available_time"
+type="time"
+required>
+
 </div>
 
+
 <div>
+
 <label>Preferred Lane</label>
-<input id="lane">
+
+<input
+id="lane"
+placeholder="Example: WA → CA">
+
 </div>
 
+
 <div>
+
 <label>Equipment</label>
+
 <select id="equipment">
+
 <option>53' Dry Van</option>
+
 <option>53' Reefer</option>
+
 <option>Flatbed</option>
+
+<option>Step Deck</option>
+
 <option>Other</option>
+
 </select>
+
 </div>
+
 
 <div>
+
 <label>Status</label>
+
 <select id="status">
-<option>Available</option>
-<option>Booked</option>
-<option>Not Available</option>
+
+<option value="Available">Available</option>
+
+<option value="Booked">Booked</option>
+
+<option value="Not Available">Not Available</option>
+
 </select>
+
 </div>
 
-<div class="full">
-<label>Notes</label>
-<textarea id="notes"></textarea>
-</div>
 
 <div class="full">
-<button type="submit">ADD TRUCK</button>
+
+<label>Dispatcher Notes</label>
+
+<textarea
+id="notes"
+placeholder="Example: Driver prefers WA → CA loads. Empty at 5 PM.">
+</textarea>
+
 </div>
+
+
+<div class="full">
+
+<button type="submit">
+
+➕ ADD TRUCK
+
+</button>
+
+</div>
+
 
 </div>
 
 </form>
 
+
 <div id="message"></div>
 
-<a class="back" href="index.html">
-← Back to Broker Page
+
+<a
+class="back"
+href="index.html">
+
+← Go To Broker Truck Board
+
 </a>
 
 </div>
 
 </div>
+
 
 <script>
 
@@ -212,27 +309,32 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_HFnwZD1cccBr6RsIDhZPbA_MxHGK0T6";
 
+
 document
 .getElementById("truckForm")
-.addEventListener("submit", async function(e) {
+.addEventListener("submit", async function(event) {
 
-e.preventDefault();
+event.preventDefault();
+
 
 const message =
 document.getElementById("message");
 
-message.innerHTML = "Saving truck...";
 
-const truck = {
+message.innerHTML =
+"⏳ Adding truck...";
+
+
+const truckData = {
 
 truck_number:
-document.getElementById("truck_number").value,
+document.getElementById("truck_number").value.trim(),
 
 driver_name:
-document.getElementById("driver_name").value,
+document.getElementById("driver_name").value.trim(),
 
 location:
-document.getElementById("location").value,
+document.getElementById("location").value.trim(),
 
 available_date:
 document.getElementById("available_date").value,
@@ -241,7 +343,7 @@ available_time:
 document.getElementById("available_time").value,
 
 lane:
-document.getElementById("lane").value,
+document.getElementById("lane").value.trim(),
 
 equipment:
 document.getElementById("equipment").value,
@@ -250,51 +352,70 @@ status:
 document.getElementById("status").value,
 
 notes:
-document.getElementById("notes").value
+document.getElementById("notes").value.trim()
 
 };
 
+
 try {
 
+
 const response = await fetch(
+
 SUPABASE_URL + "/rest/v1/trucks",
+
 {
+
 method: "POST",
 
 headers: {
+
 "apikey": SUPABASE_KEY,
-"Authorization": "Bearer " + SUPABASE_KEY,
-"Content-Type": "application/json",
-"Prefer": "return=minimal"
+
+"Authorization":
+"Bearer " + SUPABASE_KEY,
+
+"Content-Type":
+"application/json",
+
+"Prefer":
+"return=minimal"
+
 },
 
-body: JSON.stringify(truck)
+body:
+JSON.stringify(truckData)
 
 });
 
+
 if (!response.ok) {
 
-const errorText =
+const error =
 await response.text();
 
-throw new Error(errorText);
+throw new Error(error);
 
 }
 
+
 message.innerHTML =
-"✅ TRUCK ADDED SUCCESSFULLY!";
+"✅ Truck added successfully!";
+
 
 document
 .getElementById("truckForm")
 .reset();
 
+
 }
+
 catch(error) {
 
-console.log(error);
+console.error(error);
 
 message.innerHTML =
-"❌ ERROR: " + error.message;
+"❌ Error: " + error.message;
 
 }
 
